@@ -22,33 +22,22 @@ npm install smart-console-menu
 ```
 
 ```javascript
-const { ConsoleMenu } = require('smart-console-menu');
+import { ConsoleMenu } from '../lib/console-menu.js';
 
-// Option 1: Fancy Constructor with inline menu
-const menu = new ConsoleMenu({
-    menu: {
-        root: [
-            ["Deploy to Server", "exec", "ssh ${username}@${server} 'cd /app && git pull'"],
-            ["Database Backup", "exec", "mysqldump -u ${dbUser} -p ${database} > backup.sql"],
-            ["Debug Info", "debug", "all"],
-            ["Quit", "exec", "quit"]
-        ]
-    },
-    add: {
-        username: ['admin', 'deploy'],
-        server: ['production.com', 'staging.com']
-    }
-});
-
-// Option 2: Fancy Constructor with menu file
-const menu2 = new ConsoleMenu({
-    menu: './my-menu.json',
-    config: './my-config.json',
-    load: ['.env.local', '.env.production'],
-    add: { environment: 'production' }
-});
-
-menu.run();
+new ConsoleMenu({
+	menu: {
+		root: [
+			["File Menu", "menu", "fileMenu"],
+			["Debug Variables", "debug", "vars"],
+			["Quit", "exec", "quit"]
+		],
+		fileMenu: [
+			["Create File", "exec", "touch ${filename} && echo 'Created: ${filename}'"],
+			["List Files", "exec", "ls -la"],
+			["Edit File", "exec", "${editor} ${filename}"],
+		]
+	}
+}).exec().catch(console.error);
 ```
 
 **That's it!** The menu will:
@@ -60,17 +49,17 @@ menu.run();
 ## 📖 Table of Contents
 
 - [Installation](#installation)
-- [Fancy Constructors](#fancy-constructors)
-- [Basic Usage](#basic-usage)
-- [Menu Structure](#menu-structure)
+- [Fancy Constructors](#constructor)
+- [Menu Structure](#mstructure)
 - [Variable System](#variable-system)
 - [Interactive Commands](#interactive-commands)
 - [Debug Menu Type](#debug-menu-type)
 - [Configuration Management](#configuration-management)
-- [API Reference](#api-reference)
+- [API Reference](./docs/API.md)
 - [Examples](#examples)
 - [Troubleshooting](#troubleshooting)
 
+<a id="installation"></a>
 ## 📦 Installation
 
 ```bash
@@ -85,6 +74,7 @@ const { ConsoleMenu, ConfigManager } = require('smart-console-menu');
 import { ConsoleMenu, ConfigManager } from 'smart-console-menu';
 ```
 
+<a id="constructor"></a>
 ## ✨ Fancy Constructors
 
 Elegant object destructuring syntax for streamlined setup with auto-loading and pre-population features.
@@ -127,12 +117,6 @@ const menu3 = new ConsoleMenu({
         server: ['prod.example.com']
     }
 });
-
-// Works with static new() method too
-const menu4 = ConsoleMenu.new({
-    menu: './menu.json',
-    load: '.env'
-}).exec();
 ```
 
 ### ConfigManager Fancy Constructor
@@ -229,70 +213,7 @@ const menu2 = new ConsoleMenu({
 });
 ```
 
-### Real-World Example
-
-```javascript
-// Complete DevOps setup in one call
-const devopsMenu = new ConsoleMenu({
-    menu: './devops-menu.json',
-    config: './devops-config.json',
-    load: ['.env.local', '.env.production', '.env.secrets'],
-    add: {
-        servers: [
-            'production-1.mycompany.com',
-            'production-2.mycompany.com',
-            'staging.mycompany.com'
-        ],
-        users: ['admin', 'deploy', 'monitoring'],
-        databases: ['primary', 'analytics', 'cache'],
-        environments: ['production', 'staging', 'development']
-    }
-});
-
-await devopsMenu.run();
-```
-
-This single constructor call:
-- Loads the menu structure from `devops-menu.json`
-- Uses custom config file for persistence
-- Automatically loads 3 environment files
-- Pre-populates 4 variable categories with common values
-- Ready to run with zero additional setup required!
-
-## 🎯 Basic Usage
-
-### Simple Menu
-
-```javascript
-const { ConsoleMenu } = require('smart-console-menu');
-
-const simpleMenu = {
-    root: [
-        ["Show Date", "exec", "date"],
-        ["List Files", "exec", "ls -la"],
-        ["Quit", "exec", "quit"]
-    ]
-};
-
-const menu = new ConsoleMenu(simpleMenu);
-menu.run();
-```
-
-### With Variables
-
-```javascript
-const menuWithVars = {
-    root: [
-        ["Connect to Server", "exec", "ssh ${username}@${serverName}"],
-        ["Backup Database", "exec", "mysqldump -u ${dbUser} -p ${database} > ${backupFile}"],
-        ["Quit", "exec", "quit"]
-    ]
-};
-
-// Fluent API
-ConsoleMenu.new(menuWithVars).exec();
-```
-
+<a id="mstructure"></a>
 ## 🏗️ Menu Structure
 
 Menu items are arrays with three elements: `[name, type, command]`
@@ -328,6 +249,7 @@ const menuStructure = {
 };
 ```
 
+<a id="variable-system"></a>
 ## 🔧 Variable System
 
 Variables use `${variableName}` syntax and are automatically managed with persistent history.
@@ -362,6 +284,7 @@ const config = new ConfigManager();
 config.loadEnvFile('.env.local');  // Loads SUPABASE_URL, DATABASE_URL, etc.
 ```
 
+<a id="interactive-commands"></a>
 ## 🔄 Interactive Commands
 
 Automatically detected and handled with proper terminal control:
@@ -388,6 +311,7 @@ Automatically detected and handled with proper terminal control:
 // - Returns to menu when complete
 ```
 
+<a id="debug-menu-type"></a>
 ## 🐛 Debug Menu Type
 
 Instant access to system information without writing debug commands.
@@ -416,6 +340,7 @@ Instant access to system information without writing debug commands.
 Press Enter to continue...
 ```
 
+<a id="configuration-management"></a>
 ## ⚙️ Configuration Management
 
 Advanced configuration operations via `ConfigManager`.
@@ -457,138 +382,41 @@ config.loadEnvFile('.env.local');
 // Now SUPABASE_URL, SUPABASE_ANON_KEY, DATABASE_URL are available as variables
 ```
 
-## 📚 API Reference
 
-### ConsoleMenu Class
-
-#### Constructor
-```javascript
-// Traditional constructor (backward compatible)
-new ConsoleMenu(menuData, configPath = './menu-config.json')
-
-// Fancy constructor with object destructuring
-new ConsoleMenu({
-    menu: menuData | menuFilePath,       // Menu object or file path
-    config?: configPath,                 // Optional config file path
-    load?: envFilePath | envFileArray,   // Optional .env file(s) to load
-    add?: variablesObject                // Optional variables to pre-populate
-})
-```
-
-#### Static Methods
-```javascript
-// Traditional static method
-ConsoleMenu.new(menuData, configPath)  // Fluent factory method
-
-// Fancy static method
-ConsoleMenu.new({
-    menu: menuData | menuFilePath,
-    config?: configPath,
-    load?: envFilePath | envFileArray,
-    add?: variablesObject
-})
-```
-
-#### Instance Methods
-```javascript
-async menu.run()                       // Start menu (alias for exec)
-async menu.exec()                      // Start menu execution
-menu.validateMenuStructure()           // Validate menu structure
-```
-
-### ConfigManager Class
-
-#### Constructor
-```javascript
-// Traditional constructor (backward compatible)
-new ConfigManager(configPath = './menu-config.json')
-
-// Fancy constructor with object destructuring
-new ConfigManager({
-    file?: configPath,                   // Optional config file path
-    load?: envFilePath | envFileArray,   // Optional .env file(s) to load
-    add?: variablesObject                // Optional variables to pre-populate
-})
-```
-
-#### Variable Management
-```javascript
-config.addVariable(name, values)           // Add new variable
-config.removeVariable(name)                // Remove variable
-config.removeVariableValue(name, value)    // Remove specific value
-config.getVariableOptions(name)            // Get variable values
-config.listVariables()                     // List all variables
-```
-
-#### File Operations
-```javascript
-config.loadEnvFile(path)                   // Load .env file
-config.exportConfig(path)                  // Export configuration
-config.clearConfig()                       // Clear all variables
-```
-
+<a id="examples"></a>
 ## 💡 Examples
 
-### DevOps Menu
-```javascript
-const devOpsMenu = {
-    root: [
-        ["Server Management", "menu", "serverMenu"],
-        ["Database Operations", "menu", "dbMenu"],
-        ["Debug Tools", "menu", "debugMenu"],
-        ["Quit", "exec", "quit"]
-    ],
-    serverMenu: [
-        ["Deploy Application", "exec", "ssh ${username}@${server} 'cd /app && ./deploy.sh'"],
-        ["Check Server Status", "exec", "ssh ${username}@${server} 'systemctl status ${service}'"],
-        ["View Logs", "exec", "ssh ${username}@${server} 'tail -f /var/log/${logFile}'"],
-        ["Back", "menu", "root"]
-    ],
-    dbMenu: [
-        ["Create Backup", "exec", "mysqldump -u ${dbUser} -p ${database} > backup-$(date +%Y%m%d).sql"],
-        ["Run Migration", "exec", "mysql -u ${dbUser} -p ${database} < ${migrationFile}"],
-        ["Connect to Database", "exec", "mysql -u ${dbUser} -p ${database}"],
-        ["Back", "menu", "root"]
-    ],
-    debugMenu: [
-        ["Show Variables", "debug", "vars"],
-        ["Show Environment", "debug", "env"],
-        ["Show All Debug Info", "debug", "all"],
-        ["Back", "menu", "root"]
-    ]
-};
+Explore these example files to see Smart Console Menu in action:
+
+### `basic-usage.js`
+Simple demonstration of creating a menu with variable substitution and configuration management.
+
+### `devops-workflow.js`
+Complete DevOps workflow menu with server management, database operations, and debugging tools.
+
+### `errors.js`
+Demonstrates menu validation warnings for duplicate variables and how to suppress them.
+
+### `super-dev.js`
+Advanced development menu showcasing complex workflows and interactive commands.
+
+### `cli-menu`
+Executable CLI menu script for quick testing and demonstration.
+
+### Running Examples
+
+```bash
+# Run any example directly
+node examples/basic-usage.js
+node examples/devops-workflow.js
+node examples/errors.js
+
+# Or make executable and run
+chmod +x examples/cli-menu
+./examples/cli-menu
 ```
 
-### Development Workflow
-```javascript
-const devMenu = {
-    root: [
-        ["Project Setup", "menu", "setupMenu"],
-        ["Development", "menu", "devMenu"],
-        ["Testing", "menu", "testMenu"],
-        ["Quit", "exec", "quit"]
-    ],
-    setupMenu: [
-        ["Clone Repository", "exec", "git clone ${repoUrl} ${projectName}"],
-        ["Install Dependencies", "exec", "cd ${projectName} && npm install"],
-        ["Setup Environment", "exec", "cp .env.example .env.local"],
-        ["Back", "menu", "root"]
-    ],
-    devMenu: [
-        ["Start Development Server", "exec", "cd ${projectName} && npm run dev"],
-        ["Run Build", "exec", "cd ${projectName} && npm run build"],
-        ["Open in Editor", "exec", "${editor} ${projectName}"],
-        ["Back", "menu", "root"]
-    ],
-    testMenu: [
-        ["Run Tests", "exec", "cd ${projectName} && npm test"],
-        ["Run Specific Test", "exec", "cd ${projectName} && npm test ${testFile}"],
-        ["Coverage Report", "exec", "cd ${projectName} && npm run test:coverage"],
-        ["Back", "menu", "root"]
-    ]
-};
-```
-
+<a id="troubleshooting"></a>
 ## 🚨 Troubleshooting
 
 ### Common Issues

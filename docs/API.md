@@ -396,3 +396,58 @@ const menu = new ConsoleMenu({
   config: './config.json'
 });
 ```
+
+## Security Considerations
+
+### Configuration File Storage
+
+# ⚠️ **Important Security Notice**
+
+Configuration files created by Smart Console Menu are stored in **plain text JSON format**. This means:
+
+- **Variable values are stored unencrypted** in the configuration file
+- **Sensitive data** like passwords, API keys, or tokens are often used and the resulting configuration file needs to be added to .gitignore, (**you have to add it yourself**)
+- **User input history** is preserved and visible in the configuration file
+
+### Best Practices
+
+#### 1. Add Configuration Files to `.gitignore`
+
+Always exclude configuration files from version control:
+
+```gitignore
+# Smart Console Menu configurations
+menu-config.json
+dev-config.json
+*.config.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+```
+
+#### 2. Separate Configs for Different Environments
+
+Use different configuration files for different environments:
+
+```javascript
+// Development
+new ConsoleMenu({ config: './dev-config.json' });
+
+// Production (with restricted variables)
+new ConsoleMenu({ config: './prod-config.json' });
+```
+
+### What Gets Stored
+
+The configuration file typically contains:
+
+```json
+{
+  "server": ["localhost", "staging.example.com", "prod.example.com"],
+  "username": ["admin", "developer", "deployment"],
+  "filename": ["config.json", "package.json", "README.md"],
+  "port": ["3000", "8080", "80", "443"]
+}
+```
