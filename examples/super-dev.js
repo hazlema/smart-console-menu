@@ -1,6 +1,14 @@
 #!/usr/bin/env node
+/**************************************************************
+  * Professional DevOps management with smart-console-menu
+  *
+  * Features demonstrated:
+  * ✅ Complex deployment workflows
+  * ✅ Database management operations
+  * ✅ Comprehensive debugging tools
+  * ✅ Chaining configuration like a boss
+  *************************************************************/
 
-// Clean decoupled approach with explicit config management
 import { ConsoleMenu, ConfigManager } from '../lib/console-menu.js';
 
 ConsoleMenu.new({

@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 /**************************************************************
-  * Minimal Example
+  * smart-console-menu warning handler
+  *
+  * Features demonstrated:
+  * ✅ How to suppress duplicate variable warnings
   *************************************************************/
 
 import { ConsoleMenu } from '../lib/console-menu.js';
 
 new ConsoleMenu({
+	// Change warning to false to suppress
+	"warnings": true,
 	menu: {
 		root: [
-			["File Menu", "menu", "fileMenu"],
-			["Debug Variables", "debug", "vars"],
+			["Test  #1", "exec", "cat ${--file}"],
+			["Test  #2", "exec", "cat ${--file}"],
 			["Quit", "exec", "quit"]
-		],
-		fileMenu: [
-			["Create File", "exec", "touch ${filename} && echo 'Created: ${filename}'"],
-			["List Files", "exec", "ls -la"],
-			["Edit File", "exec", "${editor} ${filename}"],
 		]
 	}
 }).exec().catch(console.error);

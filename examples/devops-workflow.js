@@ -1,16 +1,12 @@
-// === DevOps Workflow Menu ===
-// Professional DevOps management with smart-console-menu
-// 
-// import { ConsoleMenu, ConfigManager } from './cli/lib/console-menu.js';
-// const { ConsoleMenu, ConfigManager } = require('../lib/console-menu.js');
-//
-// Features demonstrated:
-// ✅ Complex deployment workflows
-// ✅ Database management operations
-// ✅ System monitoring commands
-// ✅ Interactive SSH sessions
-// ✅ Environment variable integration
-// ✅ Comprehensive debugging tools
+#!/usr/bin/env node
+/**************************************************************
+  * Professional DevOps management with smart-console-menu
+  *
+  * Features demonstrated:
+  * ✅ Complex deployment workflows
+  * ✅ Database management operations
+  * ✅ Comprehensive debugging tools
+  *************************************************************/
 
 import { ConsoleMenu, ConfigManager } from '../lib/console-menu.js';
 
