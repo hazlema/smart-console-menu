@@ -1,54 +1,44 @@
 {
-  "name": "smart-console-menu",
-  "version": "1.0.0",
-  "description": "A powerful, feature-rich console menu framework for Node.js with intelligent variable substitution, interactive command support, and built-in debugging tools.",
-  "main": "lib/console-menu.js",
-  "type": "module",
-  "bin": {
-    "smart-menu": "./bin/cli-menu"
-  },
-  "scripts": {
-    "test": "node test/test-all.js",
-    "example": "node examples/basic-usage.js",
-    "lint": "eslint lib/ examples/",
-    "prepare": "npm test"
-  },
-  "keywords": [
-    "console",
-    "menu",
-    "cli",
-    "terminal",
-    "interactive",
-    "command-line",
-    "variables",
-    "substitution",
-    "devops",
-    "automation",
-    "debug",
-    "configuration"
-  ],
-  "author": "Matthew Hazlett <hazlema@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/smart-console-menu.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/smart-console-menu/issues"
-  },
-  "homepage": "https://github.com/yourusername/smart-console-menu#readme",
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "files": [
-    "lib/",
-    "examples/",
-    "docs/",
-    "README.md",
-    "LICENSE"
-  ],
-  "devDependencies": {
-    "eslint": "^8.0.0"
-  },
-  "dependencies": {}
+	"name": "smart-console-menu",
+	"version": "1.0.0",
+	"description": "A powerful, feature-rich console menu framework for Node.js with intelligent variable substitution, interactive command support, and built-in debugging tools.",
+	"main": "lib/console-menu.js",
+	"type": "module",
+	"scripts": {
+		"test": "node test/test-all.js",
+		"example": "node examples/basic-usage.js",
+		"prepare": "npm test"
+	},
+	"keywords": [
+		"console",
+		"menu",
+		"cli",
+		"terminal",
+		"interactive",
+		"command-line",
+		"variables",
+		"substitution",
+		"devops",
+		"automation",
+		"debug",
+		"configuration"
+	],
+	"author": "Matthew Hazlett <hazlema@gmail.com>",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hazlema/smart-console-menu/"
+	},
+	"homepage": "https://github.com/hazlema/smart-console-menu/",
+	"files": [
+		"lib/",
+		"examples/",
+		"docs/",
+		"README.md",
+		"LICENSE"
+	],
+	"devDependencies": {
+		"eslint": "^8.0.0"
+	},
+	"dependencies": {}
 }
