@@ -211,10 +211,6 @@ themeManager.addTheme(new MenuTheme('cyberpunk', {
 
 Try the interactive demo: `node examples/theme-demo.js` 🎪
 
----
-
-Thanks for menu-surfing! If bugs bite or features fizz, holler. May your terminals be ever colorful and your vars always substituted. 🎮✨
-
 ## Contributing: Join the CLI Clan! 🤝
 
 Fork, PR, geek out! Report bugs? We'll debug like Sherlock on steroids. 🕵️‍♂️ Stars appreciated—fuel for more puns. Follow @hazlema on X for updates.
@@ -223,3 +219,6 @@ Fork, PR, geek out! Report bugs? We'll debug like Sherlock on steroids. 🕵️�
 
 Free as in speech (and beer? Nah, but close). See LICENSE for deets.
 
+---
+
+Thanks for menu-surfing! If bugs bite or features fizz, holler. May your terminals be ever colorful and your vars always substituted. 🎮✨

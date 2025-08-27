@@ -27,7 +27,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/hazlema/smart-console-menu/"
+		"url": "git+https://github.com/hazlema/smart-console-menu.git"
 	},
 	"homepage": "https://github.com/hazlema/smart-console-menu/",
 	"files": [
