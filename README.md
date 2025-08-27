@@ -149,6 +149,10 @@ Check the `examples/` dir for full scripts:
 
 Mix in your own: Load from JSON for mega-menus.
 
+## The Super Over-Engineered Section 🎨⚡
+
+Because why have boring terminals when you can have *fabulous* ones? We went completely overboard and added **6 gorgeous themes** to make your menus look absolutely stunning. This is totally optional (your menus work fine without themes), but where's the fun in that?
+
 ### Theme Magic ✨
 
 ```javascript
@@ -218,8 +222,4 @@ Fork, PR, geek out! Report bugs? We'll debug like Sherlock on steroids. 🕵️�
 ## License: MIT – Share the Love ❤️
 
 Free as in speech (and beer? Nah, but close). See LICENSE for deets.
-
-## The Super Over-Engineered Section 🎨⚡
-
-Because why have boring terminals when you can have *fabulous* ones? We went completely overboard and added **6 gorgeous themes** to make your menus look absolutely stunning. This is totally optional (your menus work fine without themes), but where's the fun in that?
 
