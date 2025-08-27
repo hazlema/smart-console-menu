@@ -196,7 +196,7 @@ themeManager.addTheme(new MenuTheme('cyberpunk', {
 }));
 ```
 
-### Colors in honer of the good ol' BBS days (If you know, you know) 🎨
+### Colors a throwback to the good ol' BBS days (If you know, you know) 🎨
 
 | # | Color     | Attribute         | # | Color     | Attribute         |
 |---|-----------|-------------------|---|-----------|-------------------|
