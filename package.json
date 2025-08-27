@@ -1,6 +1,6 @@
 {
 	"name": "smart-console-menu",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "A powerful, feature-rich console menu framework for Node.js with intelligent variable substitution, interactive command support, and built-in debugging tools.",
 	"main": "lib/console-smart.js",
 	"type": "module",
