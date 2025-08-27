@@ -3,13 +3,14 @@
   * Minimal Example
   *************************************************************/
 
-import { ConsoleMenu } from '../lib/console-menu.js';
+import SmartConsoleMenu from '../lib/console-smart.js';
 
-new ConsoleMenu({
+new SmartConsoleMenu({
 	menu: {
 		root: [
 			["File Menu", "menu", "fileMenu"],
 			["Debug Variables", "debug", "vars"],
+			["Long Process", "exec", "sleep 5"],
 			["Quit", "exec", "quit"]
 		],
 		fileMenu: [
@@ -18,4 +19,4 @@ new ConsoleMenu({
 			["Edit File", "exec", "${editor} ${filename}"],
 		]
 	}
-}).exec().catch(console.error);
+}).start().catch(console.error);

@@ -6,9 +6,9 @@
   * ✅ How to suppress duplicate variable warnings
   *************************************************************/
 
-import { ConsoleMenu } from '../lib/console-menu.js';
+import SmartConsoleMenu from '../lib/console-smart.js';
 
-new ConsoleMenu({
+new SmartConsoleMenu({
 	// Change warning to false to suppress
 	"warnings": true,
 	menu: {
@@ -18,4 +18,4 @@ new ConsoleMenu({
 			["Quit", "exec", "quit"]
 		]
 	}
-}).exec().catch(console.error);
+}).start().catch(console.error);

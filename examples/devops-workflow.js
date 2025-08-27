@@ -8,9 +8,9 @@
   * ✅ Comprehensive debugging tools
   *************************************************************/
 
-import { ConsoleMenu, ConfigManager } from '../lib/console-menu.js';
+import SmartConsoleMenu from '../lib/console-smart.js';
+import ConfigManager from '../lib/console-config.js';
 
-// Load environment variables if available
 const config = new ConfigManager('./devops-config.json');
 config.loadEnvFile('.env.production');
 
@@ -56,4 +56,4 @@ const devOpsMenu = {
     ]
 };
 
-ConsoleMenu.new(devOpsMenu, config).exec().catch(console.error);
+new SmartConsoleMenu(devOpsMenu, config).start().catch(console.error);
