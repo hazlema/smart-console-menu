@@ -1,0 +1,5 @@
+{
+    "name": "@hazlema/smart-console-menu",
+    "version": "1.0.0",
+    "exports": "./lib/console-menu.js"
+}
