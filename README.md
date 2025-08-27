@@ -149,6 +149,68 @@ Check the `examples/` dir for full scripts:
 
 Mix in your own: Load from JSON for mega-menus.
 
+### Theme Magic ✨
+
+```javascript
+// Set a theme when creating your menu
+new ConsoleMenu({
+  menu: './menu.json',
+  theme: 'matrix'  // 🕶️ Enter the Matrix
+});
+
+// Or switch themes dynamically  
+menu.setTheme('synthwave');  // 💜 80s cyberpunk vibes
+menu.listThemes();           // See all available themes
+```
+
+### Built-in Theme Collection 🎭
+
+| Theme | Vibe | Perfect For |
+|-------|------|-------------|
+| **classic** | Clean gray/white | Professional, default look |
+| **matrix** 🕶️ | Green on black | Terminal hacking sessions |
+| **synthwave** 💜 | Purple/pink/cyan | 80s retro cyberpunk feels |
+| **ocean** 🌊 | Blue tones | Chill late-night coding |
+| **fire** 🔥 | Red/orange/yellow | When your deploys need INTENSITY |
+| **minimal** ⚪ | Grayscale only | Clean, distraction-free |
+
+### Create Your Own Theme 🖌️
+
+Want to go full nerd? Design custom themes:
+
+```javascript
+import { ThemeManager, MenuTheme } from 'smart-console-menu';
+
+const themeManager = new ThemeManager();
+themeManager.addTheme(new MenuTheme('cyberpunk', {
+  titleBorder: '@x0D',    // Purple borders
+  titleText: '@xFD',      // Bright purple text  
+  itemText: '@x0B',       // Cyan items
+  success: '@x0A',        // Green success
+  error: '@x0C'           // Red errors
+  // ... customize all the colors!
+}));
+```
+
+### Colors in honer of the good ol' BBS days (If you know, you know) 🎨
+
+| # | Color     | Attribute         | # | Color     | Attribute         |
+|---|-----------|-------------------|---|-----------|-------------------|
+| 0	| Black	    | Normal            | 1	| Blue	    | Normal            |
+| 2	| Green	    | Normal            | 3	| Cyan	    | Normal            | 
+| 4	| Red	    | Normal            | 5	| Magenta	| Normal            |
+| 6	| Yellow    | Normal            | 7	| White	    | Normal            |
+| 8	| Black	    | High Intensity    | 9	| Blue	    | High Intensity    | 
+| A	| Green	    | High Intensity    | B	| Cyan	    | High Intensity    | 
+| C	| Red	    | High Intensity    | D	| Magenta   | High Intensity    | 
+| E	| Yellow    | High Intensity    | F	| White	    | High Intensity    |
+
+Try the interactive demo: `node examples/theme-demo.js` 🎪
+
+---
+
+Thanks for menu-surfing! If bugs bite or features fizz, holler. May your terminals be ever colorful and your vars always substituted. 🎮✨
+
 ## Contributing: Join the CLI Clan! 🤝
 
 Fork, PR, geek out! Report bugs? We'll debug like Sherlock on steroids. 🕵️‍♂️ Stars appreciated—fuel for more puns. Follow @hazlema on X for updates.
@@ -157,4 +219,7 @@ Fork, PR, geek out! Report bugs? We'll debug like Sherlock on steroids. 🕵️�
 
 Free as in speech (and beer? Nah, but close). See LICENSE for deets.
 
-Thanks for menu-surfing! If bugs bite or features fizz, holler. May your terminals be ever colorful and your vars always substituted. 🎮✨
+## The Super Over-Engineered Section 🎨⚡
+
+Because why have boring terminals when you can have *fabulous* ones? We went completely overboard and added **6 gorgeous themes** to make your menus look absolutely stunning. This is totally optional (your menus work fine without themes), but where's the fun in that?
+

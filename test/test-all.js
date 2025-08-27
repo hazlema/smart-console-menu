@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 // Simple test suite for smart-console-menu
-import { ConsoleMenu, ConfigManager } from '../lib/console-menu.js';
+import { ConsoleMenu } from '../lib/console-menu.js';
+import { ConfigManager } from '../lib/console-config.js';
 import fs from 'node:fs';
 
 console.log("🧪 Running Smart Console Menu Test Suite...\n");
