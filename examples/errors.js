@@ -6,7 +6,7 @@
   * ✅ How to suppress duplicate variable warnings
   *************************************************************/
 
-import SmartConsoleMenu from '../lib/console-smart.js';
+import { SmartConsoleMenu } from '../lib/console-smart.js';
 
 new SmartConsoleMenu({
 	// Change warning to false to suppress

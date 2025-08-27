@@ -3,7 +3,7 @@
   * Minimal Example
   *************************************************************/
 
-import SmartConsoleMenu from '../lib/console-smart.js';
+import { SmartConsoleMenu } from '../lib/console-smart.js';
 
 new SmartConsoleMenu({
 	menu: {

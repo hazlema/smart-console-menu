@@ -1,473 +1,160 @@
-# Smart Console Menu 🚀
+# Smart Console Menu: Your CLI Adventure Awaits! 🚀🍔
 
-A powerful, feature-rich console menu framework for Node.js with intelligent variable substitution, interactive command support, and built-in debugging tools.
+Hey there, terminal tamer! 👋 Welcome to **Smart Console Menu**—the Node.js CLI framework that's like a choose-your-own-adventure book, but for devs who prefer pixels over pages. Tired of bland bash scripts? This bad boy whips up interactive menus with smart variable swaps, config wizardry, and debug spells that'll make your terminal glow like a neon-lit arcade. It's got that retro geek vibe with modern JS flair—pun intended, because who doesn't love a "console"-ation prize? 😎
 
-[![npm version](https://badge.fury.io/js/smart-console-menu.svg)](https://badge.fury.io/js/smart-console-menu)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Whether you're orchestrating DevOps dances or just need a quick file-fiddling feast, we've got you covered. Let's geek out and get you started!
 
-## ✨ Features
+## Why Choose This Menu? (Spoiler: It's Deliciously Smart) 🍟
 
-- 🎯 **Intelligent Variable Substitution** - Persistent variable history with smart selection
-- 🔄 **Interactive Command Support** - Seamless handling of browser auth, SSH, editors, and more
-- 🐛 **Built-in Debug Tools** - Instant access to configuration, environment, and menu information
-- ✅ **Comprehensive Validation** - Catch menu structure errors before runtime
-- 📂 **Environment Integration** - Load variables from .env files automatically
-- 🎨 **Rich User Interface** - Icons, colors, and intuitive navigation
-- 🔧 **Powerful Configuration** - Full CRUD operations on variables and settings
+- **Interactive Menus on Steroids**: Navigate submenus like a pro gamer, with icons (📁 for folders, ⚡ for zaps) and back buttons that won't leave you lost in the void.
+- **Variable Magic**: Prompt for inputs with history (MRU style—Most Recently Used, not a typo for "meow" 🐱), auto-load from .env files, and substitute like a regex ninja: `cat ${filename}` becomes reality without hardcoding headaches.
+- **Config Superpowers**: Manage vars in JSON, add/remove like a CRUD boss, export for backups—because who wants config chaos in their code cave?
+- **Interactive Command Handoff**: Run SSH, editors, or Supabase logins without stdin squabbles—hands over the terminal reins gracefully.
+- **Validation Vault**: Catches menu mishaps (circular refs, missing bits) before they crash your party. Warnings? Optional, for the brave souls.
+- **Debug Delights**: Peek vars, env, menus with built-in tools—because debugging should be fun, not a bug hunt in the dark.
+- **Fancy Constructors**: Old-school or options-object chic? We've got compat for both, plus auto-load/add for envs and vars.
+- **Geeky Goodies**: Emojis, colors (via your Wildcat-inspired hacks?), and punny logs to keep the vibes high.
 
-## 🚀 Quick Start
+Built with love in modern JS—no legacy lint here. And hey, if there's a bug? We'll squash it like Mario on a Goomba. 🐞
 
-```bash
-npm install smart-console-menu
-```
+## Installation: Easy as Pie (or npm i) 🥧
 
-```javascript
-import { ConsoleMenu } from '../lib/console-menu.js';
-
-new ConsoleMenu({
-	menu: {
-		root: [
-			["File Menu", "menu", "fileMenu"],
-			["Debug Variables", "debug", "vars"],
-			["Quit", "exec", "quit"]
-		],
-		fileMenu: [
-			["Create File", "exec", "touch ${filename} && echo 'Created: ${filename}'"],
-			["List Files", "exec", "ls -la"],
-			["Edit File", "exec", "${editor} ${filename}"],
-		]
-	}
-}).exec().catch(console.error);
-```
-
-**That's it!** The menu will:
-- Remember your server names, usernames, and database names
-- Handle SSH authentication properly
-- Provide instant debug information
-- Validate your menu structure
-
-## 📖 Table of Contents
-
-- [Installation](#installation)
-- [Fancy Constructors](#constructor)
-- [Menu Structure](#mstructure)
-- [Variable System](#variable-system)
-- [Interactive Commands](#interactive-commands)
-- [Debug Menu Type](#debug-menu-type)
-- [Configuration Management](#configuration-management)
-- [API Reference](./docs/API.md)
-- [Examples](#examples)
-- [Troubleshooting](#troubleshooting)
-
-<a id="installation"></a>
-## 📦 Installation
+Fire up your terminal and summon the package:
 
 ```bash
 npm install smart-console-menu
 ```
 
-```javascript
-// ES6/CommonJS
-const { ConsoleMenu, ConfigManager } = require('smart-console-menu');
+Or yarn it up if you're feeling fibrous:
 
-// ES Modules
+```bash
+yarn add smart-console-menu
+```
+
+Pro tip: Node.js v14+ recommended—because who wants to party like it's 1999? 🎉
+
+## Quick Start: Your First Menu Quest 🗺️
+
+Import the heroes and launch your CLI epic:
+
+```javascript
+// basic-usage.js – Let's menu-fy!
 import { ConsoleMenu, ConfigManager } from 'smart-console-menu';
-```
 
-<a id="constructor"></a>
-## ✨ Fancy Constructors
-
-Elegant object destructuring syntax for streamlined setup with auto-loading and pre-population features.
-
-### ConsoleMenu Fancy Constructor
-
-Create menus with automatic environment loading and variable pre-population:
-
-```javascript
-const { ConsoleMenu } = require('smart-console-menu');
-
-// Ultra-simple: Just provide a menu file
-const menu1 = new ConsoleMenu({
-    menu: './devops-menu.json'
-});
-
-// Full-featured: Everything in one elegant call
-const menu2 = new ConsoleMenu({
-    menu: './cli/menu.json',           // Menu structure from file
-    config: './cli/settings.json',    // Custom config location
-    load: ['.env.local', '.env.prod'], // Auto-load environment files
-    add: {                             // Pre-populate variables
-        servers: ['prod1.com', 'prod2.com'],
-        environment: ['production', 'staging'],
-        deployKey: 'deploy-2024'
-    }
-});
-
-// Inline menu data (no file needed)
-const menu3 = new ConsoleMenu({
-    menu: {
-        root: [
-            ["Deploy", "exec", "ssh ${user}@${server} './deploy.sh'"],
-            ["Status", "exec", "curl -s ${server}/health"],
-            ["Quit", "exec", "quit"]
-        ]
-    },
-    add: {
-        user: ['admin', 'deploy'],
-        server: ['prod.example.com']
-    }
-});
-```
-
-### ConfigManager Fancy Constructor
-
-Advanced configuration management with auto-loading and variable initialization:
-
-```javascript
-const { ConfigManager } = require('smart-console-menu');
-
-// Simple: Just specify file location
-const config1 = new ConfigManager({
-    file: './my-settings.json'
-});
-
-// Advanced: Load environments and pre-populate
-const config2 = new ConfigManager({
-    file: './cli/config.json',         // Custom config file
-    load: ['.env.local', '.env'],      // Load multiple .env files
-    add: {                             // Add initial variables
-        databases: ['prod_db', 'staging_db'],
-        apiKeys: ['primary', 'backup'],
-        timeout: '30000'
-    }
-});
-
-// Auto-load single .env file
-const config3 = new ConfigManager({
-    file: './config.json',
-    load: '.env.production'           // String for single file
-});
-```
-
-### Fancy Constructor Features
-
-#### ✅ **Backward Compatibility**
-Old constructor patterns continue to work unchanged:
-
-```javascript
-// Old way - still works perfectly
-const menu = new ConsoleMenu(menuData, './config.json');
-const config = new ConfigManager('./settings.json');
-
-// New way - fancy constructors
-const menu2 = new ConsoleMenu({ menu: menuData, config: './config.json' });
-const config2 = new ConfigManager({ file: './settings.json' });
-```
-
-#### ✅ **Auto-Loading**
-Environment files are loaded during construction:
-
-```javascript
-const menu = new ConsoleMenu({
-    menu: './menu.json',
-    load: ['.env', '.env.local', '.env.production']  // All loaded automatically
-});
-
-// Equivalent to:
-const config = new ConfigManager('./menu-config.json');
-config.loadEnvFile('.env');
-config.loadEnvFile('.env.local');
-config.loadEnvFile('.env.production');
-const menu = new ConsoleMenu(menuData, './menu-config.json');
-```
-
-#### ✅ **Pre-Population**
-Variables are added with initial values during construction:
-
-```javascript
-const menu = new ConsoleMenu({
-    menu: './menu.json',
-    add: {
-        servers: ['prod.com', 'staging.com'],
-        users: ['admin', 'deploy', 'readonly'],
-        port: '3000'
-    }
-});
-
-// Variables are immediately available for menu commands
-// No prompting needed for first use!
-```
-
-#### ✅ **Menu Source Flexibility**
-Load menus from files or provide inline:
-
-```javascript
-// From file path
-const menu1 = new ConsoleMenu({ menu: './devops.json' });
-
-// Inline menu object
-const menu2 = new ConsoleMenu({
-    menu: {
-        root: [["Test", "exec", "echo hello"]]
-    }
-});
-```
-
-<a id="mstructure"></a>
-## 🏗️ Menu Structure
-
-Menu items are arrays with three elements: `[name, type, command]`
-
-### Menu Item Types
-
-| Type | Icon | Description | Example |
-|------|------|-------------|---------|
-| `menu` | 📁 | Navigate to another menu | `["Submenu", "menu", "submenuName"]` |
-| `exec` | ⚡ | Execute a command | `["List Files", "exec", "ls -la"]` |
-| `debug` | 🐛 | Show debug information | `["Debug Variables", "debug", "vars"]` |
-
-### Example Structure
-
-```javascript
-const menuStructure = {
-    root: [
-        ["File Operations", "menu", "fileMenu"],
-        ["System Tools", "menu", "systemMenu"],
-        ["Debug", "debug", "all"],
-        ["Quit", "exec", "quit"]
-    ],
-    fileMenu: [
-        ["Create File", "exec", "touch ${filename}"],
-        ["Edit File", "exec", "${editor} ${filename}"],
-        ["Back to Main Menu", "menu", "root"]
-    ],
-    systemMenu: [
-        ["Show Processes", "exec", "ps aux | head -10"],
-        ["Disk Usage", "exec", "df -h"],
-        ["Back to Main Menu", "menu", "root"]
-    ]
+const menuData = {
+  root: [
+    ['Show Directory', 'exec', 'ls -la'],
+    ['Cat File', 'exec', 'cat ${filename}'],
+    ['Quit', 'exec', 'quit']
+  ]
 };
+
+const config = new ConfigManager('./menu-config.json');
+const menu = new ConsoleMenu(menuData, config);
+menu.start().catch(console.error);  // Beam me up, Scotty! 🚀
 ```
 
-<a id="variable-system"></a>
-## 🔧 Variable System
+Run it: `node basic-usage.js`—bam! Navigate, input vars (with history!), and execute like a boss. If `${filename}` pops, it'll prompt smartly. Geek humor: It's like autocomplete, but for your brain cells. 🧠
 
-Variables use `${variableName}` syntax and are automatically managed with persistent history.
-
-### How Variables Work
-
-1. **First Use**: Prompts user for value
-2. **Subsequent Uses**: Shows recent values + option to enter new
-3. **Automatic Storage**: Saves to `menu-config.json`
-4. **Smart Ordering**: Most recent values appear first
-
-### Example Variable Flow
-
-```bash
-🔧 Variable: serverName
-
-Recent values:
-1. production.example.com
-2. staging.example.com
-3. localhost
-4. Enter new value
-
-Select option or enter new value: 2
-```
-
-### Loading from .env Files
+Fancy mode? Load menus from JSON and envs on the fly:
 
 ```javascript
-const { ConfigManager } = require('smart-console-menu');
-
-const config = new ConfigManager();
-config.loadEnvFile('.env.local');  // Loads SUPABASE_URL, DATABASE_URL, etc.
+new ConsoleMenu({
+  menu: './my-menu.json',
+  config: './config.json',
+  load: ['.env.local'],
+  add: { editor: ['vim'] }
+}).start();
 ```
 
-<a id="interactive-commands"></a>
-## 🔄 Interactive Commands
+## Features: The Full Buffet 🍲
 
-Automatically detected and handled with proper terminal control:
+### Menu Mastery 📜
+- Define structures as objects: Keys are menu names, values are arrays of `[label, type ('menu'/'exec'), command/target]`.
+- Auto-icons: 📁 for menus, ⚡ for execs.
+- Back nav with history stack—no infinite loops here!
+- Quit gracefully with 'quit' command.
 
-### Supported Interactive Commands
+### Variable Vibes 🔄
+- Prompt with recent options (up to 10—configurable? TODO if you want!).
+- Substitute in commands: `${varName}` → user input magic.
+- Interactive check: Hands over for SSH/vim/etc without fights.
 
-| Pattern | Examples | Use Case |
-|---------|----------|----------|
-| `npx supabase login` | Authentication | Opens browser, waits for auth |
-| `ssh user@server` | Remote access | Interactive login prompts |
-| `nano file.txt` | Text editors | Full editor control |
-| `mysql -u user -p db` | Database clients | Password prompts |
-| `git commit` | Version control | Commit message editor |
+### Config Chronicles 📚
+- JSON persistence: Load/save automagically.
+- Env loading: Slurp .env files, parse KEY=VALUE (quotes? Handled!).
+- Add/remove vars/values: Keep your configs clean and mean.
 
-### How It Works
+### Debug Dungeon 🐛
+- Modes: vars, config, env, menu, all.
+- Logs working dir, Node version, and more—geek intel at your fingertips.
 
-```javascript
-// This command will be detected as interactive
-["Login to Supabase", "exec", "npx supabase login"]
+### Validation Victory 🛡️
+- Checks structure, circles, dups—throws if busted, warns if shady.
+- Suppress warnings? `{ warnings: false }` in constructor.
 
-// User gets full terminal control:
-// - Browser opens for OAuth
-// - Can interact with prompts
-// - Returns to menu when complete
-```
+## API Reference: The Dev's Spellbook 📖
 
-<a id="debug-menu-type"></a>
-## 🐛 Debug Menu Type
+### ConfigManager Class
+Your config keeper—handles vars like a digital hoarder, but organized.
 
-Instant access to system information without writing debug commands.
+- **Constructor(options)**: Flexible flavors!
+  - Old: `new ConfigManager('./config.json')` – Simple path.
+  - Fancy: `new ConfigManager({ file: './config.json', load: ['.env'], add: { key: ['value'] } })` – Auto-load envs, add vars.
+  
+- **Methods**:
+  - `addVariable(name, values = [])`: Add a var with initial array (or single). Returns bool. ✅
+  - `removeVariable(name)`: Nuke a var. Returns bool. ❌
+  - `removeVariableValue(name, value)`: Snip a value from var's list. Returns bool.
+  - `listVariables()`: Print and return all vars with previews. 📋
+  - `loadEnvFile(path = '.env.local')`: Slurp env file into vars. Handles quotes, skips comments.
+  - `clearConfig()`: Wipe slate clean. 🧹
+  - `exportConfig(outputPath)`: Dump to JSON. 📤
+  - `promptForVariable(name)`: Async prompt with history/options. Returns value or null.
+  - `getVariableOptions(name)`: Fetch array of saved values.
+  - `addVariableValue(name, value)`: Add/move to front, cap at 10.
 
-### Debug Types
+Punny note: It's like a config "manager" – because who wants unmanaged chaos? 😅
 
-```javascript
-["Show Variables", "debug", "vars"]     // All configured variables
-["Show Config", "debug", "config"]      // Configuration file info
-["Show Environment", "debug", "env"]    // System & environment vars
-["Show Menu Info", "debug", "menu"]     // Current menu structure
-["Show All", "debug", "all"]            // Comprehensive debug info
-```
+### ConsoleMenu Class
+The menu maestro—builds, validates, runs your CLI symphony.
 
-### Debug Output Example
+- **Constructor(options, configPath?)**: Dual modes!
+  - Old: `new ConsoleMenu(menuData, './config.json')`.
+  - Fancy: `new ConsoleMenu({ menu: dataOrPath, config: path, load: [...], add: {...}, warnings: false, validate: true })`.
+  - Uses ConfigManager internally (pass existing via `cfg`).
 
-```bash
-🐛 Debug: vars
-══════════════════════════════════════════════════
-📋 Configuration Variables (3):
-──────────────────────────────────────────────────
-🔹 serverName (2): production.com, staging.com
-🔹 username (3): admin, user, guest
-🔹 database (1): myapp_production
+- **Methods**:
+  - `exec()`: Async run the menu loop. Validates first (skip with `{ validate: false }`).
+  - `displayMenu()`: Clear & show current menu with title, items, icons.
+  - `handleChoice(choice)`: Process input—nav or exec.
+  - `executeCommand(cmd)`: Sub vars, check interactive, run via exec/spawn.
+  - `executeInteractiveCommand(cmd)`: Handover stdin for interactive tools.
+  - `navigateToMenu(name)`: Jump menus, handle back.
+  - `validateMenuStructure()`: Deep checks for errors/warnings. Throws on fails.
+  - `run()`: Alias for exec().
 
-Press Enter to continue...
-```
+Static: `ConsoleMenu.new(...)` – Constructor wrapper for fancy/old compat.
 
-<a id="configuration-management"></a>
-## ⚙️ Configuration Management
+Bonus: Integrates with ConfigManager for var prompts. If interactive, closes readline temporarily—geeky stdin swap!
 
-Advanced configuration operations via `ConfigManager`.
+## Examples: Real-World Recipes 👨‍🍳
 
-### Basic Operations
+Check the `examples/` dir for full scripts:
+- **basic-usage.js**: Simple menu with var subs.
+- **devops-workflow.js**: SSH, pings, system stats—Ops hero mode!
+- **super-dev.js**: Git, lint, test—Dev dashboard dreams.
+- **errors.js**: Test validation fails (for science! 🔬).
+- **cli-menu**: Bin script for direct terminal takeover.
 
-```javascript
-const { ConfigManager } = require('smart-console-menu');
-const config = new ConfigManager();
+Mix in your own: Load from JSON for mega-menus.
 
-// Add variables
-config.addVariable('servers', ['prod.com', 'staging.com']);
+## Contributing: Join the CLI Clan! 🤝
 
-// Remove variables
-config.removeVariable('oldVariable');
-config.removeVariableValue('servers', 'staging.com');
+Fork, PR, geek out! Report bugs? We'll debug like Sherlock on steroids. 🕵️‍♂️ Stars appreciated—fuel for more puns. Follow @hazlema on X for updates.
 
-// List all variables
-config.listVariables();
+## License: MIT – Share the Love ❤️
 
-// Load from .env files
-config.loadEnvFile('.env.production');
+Free as in speech (and beer? Nah, but close). See LICENSE for deets.
 
-// Export configuration
-config.exportConfig('./backup.json');
-```
-
-### Environment File Integration
-
-```bash
-# .env.local
-SUPABASE_URL="https://your-project.supabase.co"
-SUPABASE_ANON_KEY="your-anon-key"
-DATABASE_URL="postgresql://user:pass@host:5432/db"
-```
-
-```javascript
-config.loadEnvFile('.env.local');
-// Now SUPABASE_URL, SUPABASE_ANON_KEY, DATABASE_URL are available as variables
-```
-
-
-<a id="examples"></a>
-## 💡 Examples
-
-Explore these example files to see Smart Console Menu in action:
-
-### `basic-usage.js`
-Simple demonstration of creating a menu with variable substitution and configuration management.
-
-### `devops-workflow.js`
-Complete DevOps workflow menu with server management, database operations, and debugging tools.
-
-### `errors.js`
-Demonstrates menu validation warnings for duplicate variables and how to suppress them.
-
-### `super-dev.js`
-Advanced development menu showcasing complex workflows and interactive commands.
-
-### `cli-menu`
-Executable CLI menu script for quick testing and demonstration.
-
-### Running Examples
-
-```bash
-# Run any example directly
-node examples/basic-usage.js
-node examples/devops-workflow.js
-node examples/errors.js
-
-# Or make executable and run
-chmod +x examples/cli-menu
-./examples/cli-menu
-```
-
-<a id="troubleshooting"></a>
-## 🚨 Troubleshooting
-
-### Common Issues
-
-#### Variables Not Working
-```javascript
-// Debug variables
-["Debug Variables", "debug", "vars"]
-
-// Check configuration
-["Debug Config", "debug", "config"]
-```
-
-#### Interactive Commands Hanging
-- Most interactive commands are automatically detected
-- For custom interactive commands, they run with full terminal control
-- Use `debug env` to check environment setup
-
-#### Menu Validation Errors
-```bash
-❌ Menu validation errors:
-  - Menu 'root' item 1: must be an array with exactly 3 elements [name, type, command]
-  - Circular menu reference detected: root → menuA → menuB → menuA
-```
-
-#### Environment Variables Missing
-```javascript
-// Load .env files explicitly
-const config = new ConfigManager();
-config.loadEnvFile('.env.local');
-```
-
-### Getting Help
-
-1. **Use Debug Tools**: Add `["Debug All", "debug", "all"]` to any menu
-2. **Check Validation**: Menu structure errors are caught automatically
-3. **Inspect Variables**: Use `debug vars` to see what's configured
-4. **Environment Check**: Use `debug env` to verify working directory and environment variables
-
-## 🤝 Contributing
-
-Contributions welcome! Please read our contributing guidelines and submit pull requests.
-
-## 📄 License
-
-MIT License - see LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-Built with ❤️ for the Node.js community. Special thanks to all the developers who need better console menu tools!
-
----
-
-**Happy Console Menu Building!** 🚀
+Thanks for menu-surfing! If bugs bite or features fizz, holler. May your terminals be ever colorful and your vars always substituted. 🎮✨

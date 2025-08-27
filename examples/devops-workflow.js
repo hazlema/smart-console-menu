@@ -8,8 +8,7 @@
   * ✅ Comprehensive debugging tools
   *************************************************************/
 
-import SmartConsoleMenu from '../lib/console-smart.js';
-import ConfigManager from '../lib/console-config.js';
+import { SmartConsoleMenu, ConfigManager } from '../lib/console-smart.js';
 
 const config = new ConfigManager('./devops-config.json');
 config.loadEnvFile('.env.production');

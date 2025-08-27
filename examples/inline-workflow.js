@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**************************************************************
   * Professional DevOps management with smart-console-menu
   *
@@ -9,8 +10,7 @@
   * ✅ Chaining configuration like a boss
   *************************************************************/
 
-import SmartConsoleMenu from '../lib/console-smart.js';
-import ConfigManager from '../lib/console-config.js';
+import { SmartConsoleMenu, ConfigManager } from '../lib/console-smart.js';
 
 new SmartConsoleMenu({
 	menu: {
